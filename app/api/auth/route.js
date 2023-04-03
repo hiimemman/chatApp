@@ -2,12 +2,17 @@ import prisma from '../../../prisma/prisma'
 
 
 export async function POST(request){
-    console.log("Server Post started here:")
-    console.log(request)
+    console.log("Server Post started D:")
+    // const body = await request.formData()
+    // const email = body.get('email')
+    // const password = body.get('password')
+    const body = await request.formData()
+    const email = body.get('email')
+    const password = body.get('password')
     try{
         const user = await prisma.user.findUnique({
             where:{
-                email: request.email,
+                email: email,
             },
         })
     
@@ -21,7 +26,7 @@ export async function POST(request){
     
         return Response.json({status: 200, body: user, requestStatus: 'Matched'})
     }catch(e){
-        return Response.json({status: 200, body: e.message, requestStatus: 'Server error'})
+        return Response.json({status: 200, body: e.message, requestStatus: body})
     }
    
 }

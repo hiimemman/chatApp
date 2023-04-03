@@ -1,23 +1,26 @@
 "use client"
-
+import axios from "axios"
 export default function Login(){
 
   const frmSubmitAuth = async (event) =>{
     event.preventDefault()
-    const formData = new FormData(event.target)
-    // const data = Object.fromEntries(formData.entries())
-    // console.log(data)
+    const formData = new FormData(event.currentTarget)
+    const data = Object.fromEntries(formData.entries())
 
     try{
-      const requestAuth = await fetch(`/api/auth`,{
-        method: 'POST',
-        body: formData
-      })
+      
+    // const response = await fetch('/api/auth', {
+    //   headers: {
+    //     'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+    //   },
+    //   method: 'POST',
+    //   body: formData,
+    // });
+    const response = await axios.post('/api/auth', formData)
   
-      const responseAuth = await requestAuth.json()
-      console.log(responseAuth.requestStatus)
-      if(responseAuth.requestStatus === 'Server error'){
-        console.log(responseAuth.body)
+      console.log(response.requestStatus)
+      if(response.requestStatus === 'Server error'){
+        console.log(response.body)
       }
     }catch(e){
       console.log(e)
