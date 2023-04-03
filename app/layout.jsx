@@ -102,7 +102,10 @@ export default function RootLayout({ children }) {
   </div>
 </nav>
 {/* Content goes here */}
+<div class="flex flex-col items-center justify-center min-h-screen">
     {children}
+</div>
+
 
     {/* Remove because of bug temporarily */}
 {/* <footer className="min-h-screen absolute bottom-0 w-full bg-white dark:bg-gray-900 ">
