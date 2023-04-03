@@ -17,16 +17,16 @@ export async function POST(request){
         })
     
         if(!user){
-            return Response.json({status: 200, body: user, requestStatus: 'Email does not exist' })
+            return Response.json({...user, requestStatus: 'Email does not exist'})
         }
     
         if(user.password !== password){
-            return Response.json({status: 200, body: user, requestStatus: 'Wrong password'})
+            return Response.json({...user, requestStatus: 'Wrong password'})
         }
     
-        return Response.json({status: 200, body: user, requestStatus: 'Matched'})
+        return Response.json({...user, requestStatus: 'Matched'})
     }catch(e){
-        return Response.json({status: 200, body: e.message, requestStatus: body})
+        return Response.json({errorMessage: e.message, requestStatus: 'Server Error'})
     }
    
 }

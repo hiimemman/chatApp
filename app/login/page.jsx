@@ -17,10 +17,10 @@ export default function Login(){
     //   body: formData,
     // });
     const response = await axios.post('/api/auth', formData)
-  
-      console.log(response.requestStatus)
+    
+      console.log(response.data)
       if(response.requestStatus === 'Server error'){
-        console.log(response.body)
+        console.log(response.errorMessage)
       }
     }catch(e){
       console.log(e)
