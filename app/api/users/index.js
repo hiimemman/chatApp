@@ -10,7 +10,7 @@ export async function getUsers(){
     return response
 }
 
-export async function createUsers(req, res){
+export async function createUsers(req, res){a
     const user = await prisma.user.create({
         data: {
             name: req.name,

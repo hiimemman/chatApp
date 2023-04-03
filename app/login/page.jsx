@@ -1,34 +1,34 @@
 "use client"
 
-
-
-export const metadata = {
-    title: 'Login',
-    description: 'Login form to use the app',
-    openGraph: {
-        title: 'Login',
-        url: 'https://nextjs.org',
-        images: [
-          {
-            url: 'https://nextjs.org/og.png',
-            width: '100%',
-            height: 600,
-          },
-        ],
-      },
-      robots: {
-        index: true,
-      }
-  }
-
 export default function Login(){
 
+  const frmSubmitAuth = async (event) =>{
+    event.preventDefault()
+    const formData = new FormData(event.target)
+    // const data = Object.fromEntries(formData.entries())
+    // console.log(data)
+
+    try{
+      const requestAuth = await fetch(`/api/auth`,{
+        method: 'POST',
+        body: formData
+      })
+  
+      const responseAuth = await requestAuth.json()
+      console.log(responseAuth.requestStatus)
+      if(responseAuth.requestStatus === 'Server error'){
+        console.log(responseAuth.body)
+      }
+    }catch(e){
+      console.log(e)
+    }
+   
+  }
+
     return( 
-   <>
-
-
+<>
 <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-    <form className="space-y-6" action="#">
+    <form className="space-y-6" action="POST" onSubmit={frmSubmitAuth}>
         <h5 className="text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h5>
         <div>
             <label for="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
