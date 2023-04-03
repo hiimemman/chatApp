@@ -3,6 +3,7 @@ import './globals.css'
 import { useSelectedLayoutSegment } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
+
 // export const metadata = {
 //   title: 'Homepage',
 //   description: 'Homepage to chatAPP',
