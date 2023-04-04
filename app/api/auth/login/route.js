@@ -35,7 +35,7 @@ export async function POST(request){
             return Response.json({...user, requestStatus: 'Wrong password'})
         }
         // middleware(user.id)
-        return Response.json({cookiesList, requestStatus: 'Matched', requestStatus: 'Match'})
+        return Response.json({cookiesList, requestStatus: 'Match'})
        
     }catch(e){
         return Response.json({errorMessage: e.message, requestStatus: 'Server Error'})
