@@ -1,15 +1,9 @@
 import prisma from '../../../../prisma/prisma'
-import { cookies } from 'next/headers'; // Import cookies
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request){
-    const cookiesList = cookies()
 
-    
     console.log("Server Post started D:")
-    // const body = await request.formData()
-    // const email = body.get('email')
-    // const password = body.get('password')
     const body = await request.formData()
     const email = body.get('email')
     const password = body.get('password')
@@ -34,9 +28,8 @@ export async function POST(request){
         if(user.hashedPassword !== password){
             return Response.json({...user, requestStatus: 'Wrong password'})
         }
-        // middleware(user.id)
-        return Response.json({cookiesList, requestStatus: 'Match'})
-       
+        
+        return Response.json({...user, requestStatus: 'Match'})
     }catch(e){
         return Response.json({errorMessage: e.message, requestStatus: 'Server Error'})
     }

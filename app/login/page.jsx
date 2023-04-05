@@ -3,8 +3,11 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import {succesStatus, errorStatus, defaultStatus, successStatusLabel, errorStatusLabel, defaultStatusLabel} from '../design/button'
 import Link from "next/link"
+import { useRouter } from 'next/navigation';
 
 export default function Login(){
+  const router = useRouter();
+
   const [emailStatus, setEmailStatus] = useState('blank')
   const [passwordStatus, setPasswordStatus] = useState('blank')
   const [submitting, setSubmitting] = useState(false)
@@ -23,14 +26,23 @@ export default function Login(){
     if(response.data.requestStatus === 'Email does not exist'){
       setEmailStatus('error')
     }
-    if(response.data.requestStatus === 'Server error'){
-      
-    }
     if(response.data.requestStatus === 'Wrong password'){
-      
+      setPasswordStatus('error')
     }
+    if(response.status !== 200){
+      console.log(response.data)
+    }
+
     if(response.data.requestStatus === 'Match'){
-      emailStatus('success')
+
+      // middleware(user.id)
+      let cookie = `user_=true`;
+      cookie += "path=/;";
+      cookie += `max-age=${
+        60 * 60* 24 * 365 //one year
+      }`
+      document.cookie = cookie;
+      router.push('/chat')
     }
     }catch(e){
       console.log(e)
@@ -46,10 +58,12 @@ export default function Login(){
         <div>
             <label for="email" className={emailStatus === 'blank' ? defaultStatusLabel : emailStatus === 'success' ? successStatusLabel : errorStatusLabel}>Your email</label>
             <input type="email" name="email" id="email" className={emailStatus === 'blank' ? defaultStatus : emailStatus === 'success' ? succesStatus : errorStatus} placeholder="name@company.com" required onChange = {() => setEmailStatus('blank')}/>
+            {emailStatus === 'error' ? (<p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oh, snapp!</span> Email does not exist.</p>) : (<div></div>)}
         </div>
         <div>
-            <label for="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
-            <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+            <label for="password" className={passwordStatus === 'blank' ? defaultStatusLabel : passwordStatus === 'success' ? successStatusLabel : errorStatusLabel}>Your password</label>
+            <input type="password" name="password" id="password" placeholder="••••••••" className={passwordStatus === 'blank' ? defaultStatus : passwordStatus === 'success' ? succesStatus : errorStatus} required  onChange = {() => setPasswordStatus('blank')}/>
+            {passwordStatus === 'error' ? (<p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oh, snapp!</span> Incorrect Password.</p>) : (<div></div>)}
         </div>
         <div className="flex items-start">
             <div className="flex items-start">
